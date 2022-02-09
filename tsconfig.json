@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src",
+    "lib": ["es2017"],
+    "types": ["jest"],
+    "module": "es6",
+    "target": "es2017",
+    "declaration": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
+  },
+  "experimentalDecorators": true,
+  "emitDecoratorMetadata": true,
+  "include": ["src/"],
+  "exclude": ["node_modules", "test"]
+}
