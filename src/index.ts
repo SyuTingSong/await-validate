@@ -1,12 +1,5 @@
 import T from './Rules/TypeRuleChains';
 import R from './Rules/EmptyRule';
-import { Chainable } from './Chain';
+import validate from './validate';
 
-async function validate<ReturnType = any>(
-  params: { [key: string]: any },
-  rules: { [key: string]: Chainable }
-): Promise<ReturnType> {
-  return;
-}
-
-export { T, R, validate };
+export default { T, R, validate };

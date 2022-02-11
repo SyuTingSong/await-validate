@@ -1,5 +1,9 @@
 export type Validator<T = unknown> = (data: T, prop: string) => Promise<{ data: T; skip?: boolean }>;
-export type Chain<T = unknown> = Validator<T>[];
 export type Chainable<T = unknown> = {
-  getChain(): Chain<T>;
+  getChain(): Validator<T>[];
 };
+export type Rules = Chainable | { [prop: string]: Chainable };
+
+export function isChainable(o: unknown): o is Chainable {
+  return o != null && typeof o === 'object' && typeof o['getChain'] === 'function';
+}
