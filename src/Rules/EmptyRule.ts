@@ -6,7 +6,7 @@ export const R = {
   nullable: () =>
     T([
       async (data: unknown, prop: string) => {
-        if (data == null || data === '') {
+        if (data == null || data === '' || Number.isNaN(data)) {
           return { data: undefined, skip: true };
         }
         return { data };
@@ -15,10 +15,7 @@ export const R = {
   required: (message: string = ':x is required') =>
     T([
       async (data: unknown, prop: string) => {
-        if (typeof data === 'number' && !Number.isNaN(data)) {
-          return { data };
-        }
-        if (_.isEmpty(data)) {
+        if (data == null || data === '' || Number.isNaN(data)) {
           throw ValidateError.make(prop, message);
         }
         return { data };
