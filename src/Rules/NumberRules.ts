@@ -40,7 +40,7 @@ export class FloatRule extends NumberRule {
   constructor(chain: Validator[] = [], msg: string = ':x must be a number') {
     super(chain);
     this.chain.push(async (data: unknown, prop: string) => {
-      if (_.isString(data)) {
+      if (_.isString(data) && validator.isFloat(data)) {
         data = parseFloat(`${data}`);
       }
       if (typeof data === 'number' && !Number.isNaN(data)) {
