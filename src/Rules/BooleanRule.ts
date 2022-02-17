@@ -9,10 +9,13 @@ export default class BooleanRule extends BaseRule {
       if (typeof data === 'boolean') {
         return { data };
       }
+      if (data == null) {
+        return { data: false };
+      }
       if (typeof data === 'string') {
         if (['yes', 'on', '1', 'true'].indexOf(data.toLowerCase()) !== -1) {
           return { data: true };
-        } else if (['no', 'off', '0', 'false'].indexOf(data.toLowerCase()) !== -1) {
+        } else if (['no', 'off', '0', 'false', ''].indexOf(data.toLowerCase()) !== -1) {
           return { data: false };
         }
         throw ValidateError.make(prop, message);
