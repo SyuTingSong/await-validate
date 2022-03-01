@@ -9,7 +9,7 @@ export class ValidateError extends Error {
 
   public static make(prop: string, template: string, replacement: { [key: string]: StringLike } = {}): ValidateError {
     replacement['x'] = prop;
-    const message = _.reduce(replacement, (prev, val, key) => _.replace(prev, `:${key}`, val.toString()), template);
+    const message = _.reduce(replacement, (prev, val, key) => _.replace(prev, `:${key}`, `${val}`), template);
     return new ValidateError(message, prop);
   }
 }
