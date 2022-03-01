@@ -2,17 +2,33 @@
   "name": "await-validate",
   "version": "1.0.0",
   "description": "another async validator",
+  "keywords": [
+    "validator",
+    "validate",
+    "validation",
+    "async",
+    "await"
+  ],
+  "files": [
+    "lib/**/*"
+  ],
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": "git@github.com:SyuTingSong/await-validate.git",
   "author": "TingSong-Syu <rek@rek.me>",
   "license": "ISC",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc",
+    "patch": "yarn build && auto-vers -i",
+    "minor": "yarn build && auto-vers -i minor -c",
+    "major": "yarn build && auto-vers -i major -c"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
     "@types/lodash": "^4.14.178",
     "@types/validator": "^13.7.1",
+    "auto-vers": "^1.0.3",
     "jest": "^27.5.1",
     "prettier": "^2.5.1",
     "ts-jest": "^27.1.3",
