@@ -3,16 +3,34 @@ import validator from 'validator';
 import { Validator } from '../Chain';
 import { ValidateError } from '../ValidateError';
 import BaseRule from './BaseRule';
+import type { IsURLOptions } from 'validator/lib/isURL';
+import type { MobilePhoneLocale } from 'validator/lib/isMobilePhone';
 
 export default class StringRule extends BaseRule {
   constructor(chain: Validator[], message: string) {
     super(chain);
     this.chain.push(async (data: unknown, prop: string) => {
-      if (_.isString(data)) {
+      if (data == null) {
+        return { data: '' };
+      }
+      if (typeof data === 'string') {
+        return { data };
+      }
+      if (_.isObject(data) && typeof data.toString === 'function') {
+        return { data: `${data}` };
+      }
+      if (typeof data === 'number' && !Number.isNaN(data)) {
         return { data: `${data}` };
       }
       throw ValidateError.make(prop, message);
     });
+  }
+
+  trim() {
+    this.chain.push(async (data: string) => {
+      return { data: data.trim() };
+    });
+    return this;
   }
 
   startsWith(needle: string, msg: string = ':x must starts with :needle') {
@@ -62,11 +80,12 @@ export default class StringRule extends BaseRule {
       }
       throw ValidateError.make(prop, msg);
     });
+    return this;
   }
 
   date(msg: string = ':x is not a valid date') {
     this.chain.push(async (data: string, prop: string) => {
-      if (validator.isDate(data)) {
+      if (!Number.isNaN(Date.parse(data))) {
         return { data };
       }
       throw ValidateError.make(prop, msg);
@@ -76,7 +95,7 @@ export default class StringRule extends BaseRule {
 
   dateFormat(format: string, msg: string = ':x is not a date string match :format') {
     this.chain.push(async (data: string, prop: string) => {
-      if (validator.isDate(data, { format })) {
+      if (validator.isDate(data, { format, strictMode: true })) {
         return { data };
       }
       throw ValidateError.make(prop, msg, { format });
@@ -94,9 +113,12 @@ export default class StringRule extends BaseRule {
     return this;
   }
 
-  mobile(msg: string = ':x is not a valid mobile number in China') {
+  mobile(
+    locale: MobilePhoneLocale | MobilePhoneLocale[] = 'zh-CN',
+    msg: string = ':x is not a valid mobile phone number'
+  ) {
     this.chain.push(async (data: string, prop: string) => {
-      if (/^1{3-9}\d{9}$/.test(data)) {
+      if (validator.isMobilePhone(data, locale)) {
         return { data };
       }
       throw ValidateError.make(prop, msg);
@@ -117,6 +139,26 @@ export default class StringRule extends BaseRule {
   alphanumeric(msg: string = ':x must be an alphanumeric string') {
     this.chain.push(async (data: string, prop: string) => {
       if (validator.isAlphanumeric(data)) {
+        return { data };
+      }
+      throw ValidateError.make(prop, msg);
+    });
+    return this;
+  }
+
+  slug(msg: string = ':x cannot be a valid slug') {
+    this.chain.push(async (data: string, prop: string) => {
+      if (validator.isSlug(data)) {
+        return { data };
+      }
+      throw ValidateError.make(prop, msg);
+    });
+    return this;
+  }
+
+  url(options?: IsURLOptions, msg: string = ':x is not a valid url') {
+    this.chain.push(async (data: string, prop: string) => {
+      if (validator.isURL(data, options)) {
         return { data };
       }
       throw ValidateError.make(prop, msg);

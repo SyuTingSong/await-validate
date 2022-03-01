@@ -6,6 +6,9 @@
   "repository": "git@github.com:SyuTingSong/await-validate.git",
   "author": "TingSong-Syu <rek@rek.me>",
   "license": "ISC",
+  "scripts": {
+    "test": "jest"
+  },
   "devDependencies": {
     "@types/jest": "^27.4.0",
     "@types/lodash": "^4.14.178",
