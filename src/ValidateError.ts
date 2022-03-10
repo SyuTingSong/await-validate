@@ -13,3 +13,5 @@ export class ValidateError extends Error {
     return new ValidateError(message, prop);
   }
 }
+
+export default ValidateError;
