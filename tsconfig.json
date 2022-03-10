@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
+    "outDir": "lib/esm",
     "rootDir": "src",
     "lib": ["es2017"],
     "types": ["jest"],

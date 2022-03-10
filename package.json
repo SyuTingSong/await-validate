@@ -1,6 +1,6 @@
 {
   "name": "await-validate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "another async validator",
   "keywords": [
     "validator",
@@ -12,14 +12,20 @@
   "files": [
     "lib/**/*"
   ],
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "exports": {
+    ".": {
+      "require": "./lib/cjs/index.js",
+      "import": "./lib/esm/index.js"
+    }
+  },
   "repository": "git@github.com:SyuTingSong/await-validate.git",
   "author": "TingSong-Syu <rek@rek.me>",
   "license": "ISC",
   "scripts": {
     "test": "jest",
-    "build": "tsc",
+    "build": "rm -fr lib && tsc && tsc -p tsconfig-cjs.json && ./patch",
     "patch": "yarn build && auto-vers -i",
     "minor": "yarn build && auto-vers -i minor -c",
     "major": "yarn build && auto-vers -i major -c"
