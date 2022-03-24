@@ -134,4 +134,8 @@ describe('string parts', function () {
   test('trim', function () {
     expect(validate('  hello world !! ', T.string().trim())).resolves.toBe('hello world !!');
   });
+
+  test('match', function () {
+    expect(validate('abcdefg', T.string().match(/^\w+$/))).resolves.toBe('abcdefg');
+  });
 });

@@ -165,4 +165,14 @@ export default class StringRule extends BaseRule {
     });
     return this;
   }
+
+  match(pattern: RegExp, msg: string = ':x is not match the given pattern :pattern') {
+    this.chain.push(async (data: string, prop: string) => {
+      if (pattern.test(data)) {
+        return { data };
+      }
+      throw ValidateError.make(prop, msg, { pattern });
+    });
+    return this;
+  }
 }
