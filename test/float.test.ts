@@ -1,4 +1,4 @@
-import validate, { T } from '../src/index';
+import validate, { R, T } from '../src/index';
 
 describe('float type validator', function () {
   test('float directly', function () {
@@ -8,7 +8,7 @@ describe('float type validator', function () {
 
   test('float strings', function () {
     ['128.178', '0.025', '-15'].forEach(function (val) {
-      expect(validate(val, T.float())).resolves.toBe(parseFloat(val));
+      expect(validate(val, R.required().float())).resolves.toBe(parseFloat(val));
     });
   });
 

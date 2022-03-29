@@ -31,12 +31,26 @@ describe('integer type validator', function () {
 describe('integer comparing cases', function () {
   test('greater than', function () {
     expect(validate(35, T.integer().gt(28))).resolves.toBe(35);
+    expect(validate(35, T.integer().gt(35))).rejects.toThrow('greater than');
     expect(validate(35, T.integer().gt(48))).rejects.toThrow('greater than');
+  });
+
+  test('greater than or equal', function () {
+    expect(validate(35, T.integer().ge(28))).resolves.toBe(35);
+    expect(validate(35, T.integer().ge(35))).resolves.toBe(35);
+    expect(validate(35, T.integer().ge(48))).rejects.toThrow('greater than');
   });
 
   test('less than', function () {
     expect(validate(35, T.integer().lt(28))).rejects.toThrow('less than');
+    expect(validate(35, T.integer().lt(35))).rejects.toThrow('less than');
     expect(validate(35, T.integer().lt(48))).resolves.toBe(35);
+  });
+
+  test('less than or equal', function () {
+    expect(validate(35, T.integer().le(28))).rejects.toThrow('less than');
+    expect(validate(35, T.integer().le(35))).resolves.toBe(35);
+    expect(validate(35, T.integer().le(48))).resolves.toBe(35);
   });
 
   test('between', function () {

@@ -87,6 +87,7 @@ describe('string parts', function () {
   test('date', function () {
     expect(validate('01 Jan 2018', T.string().date())).resolves.toBe('01 Jan 2018');
     expect(validate('2018/01/01', T.string().date())).resolves.toBe('2018/01/01');
+    expect(validate('alklajflakjfklj', T.string().date())).rejects.toThrow('not a valid date');
   });
 
   test('dateFormat', function () {
@@ -137,5 +138,6 @@ describe('string parts', function () {
 
   test('match', function () {
     expect(validate('abcdefg', T.string().match(/^\w+$/))).resolves.toBe('abcdefg');
+    expect(validate('abcdefg', T.string().match(/^ax\w+$/))).rejects.toThrow('not match');
   });
 });
