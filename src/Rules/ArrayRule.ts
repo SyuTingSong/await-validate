@@ -15,7 +15,7 @@ export default class ArrayRule extends BaseRule {
     });
   }
 
-  minLength(n: number, message: string = ':x should not have less than :n members') {
+  minLength(n: number, message: string = ':x should have at least :n members') {
     this.chain.push(async (data: ArrayLike<any>, prop: string) => {
       if (data.length < n) {
         throw ValidateError.make(prop, message, { n });
@@ -25,7 +25,7 @@ export default class ArrayRule extends BaseRule {
     return this;
   }
 
-  maxLength(n: number, message: string = ':x should not have more than :n members') {
+  maxLength(n: number, message: string = ':x should have at most :n members') {
     this.chain.push(async (data: ArrayLike<any>, prop: string) => {
       if (data.length > n) {
         throw ValidateError.make(prop, message, { n });
