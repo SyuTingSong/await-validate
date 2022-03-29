@@ -5,7 +5,7 @@ import _ from 'lodash';
 import validator from 'validator';
 
 class NumberRule extends BaseRule {
-  public gt(n: number, msg: string = ':x must greater than :n') {
+  public gt(n: number, msg: string = ':x must be greater than :n') {
     this.chain.push(async (data, prop) => {
       if (data > n) {
         return { data };
@@ -15,9 +15,29 @@ class NumberRule extends BaseRule {
     return this;
   }
 
-  public lt(n: number, msg: string = ':x must less than :n') {
+  public ge(n: number, msg: string = ':x must be greater than or equals to :n') {
+    this.chain.push(async (data, prop: string) => {
+      if (data >= n) {
+        return { data };
+      }
+      throw ValidateError.make(prop, msg, { n });
+    });
+    return this;
+  }
+
+  public lt(n: number, msg: string = ':x must be less than :n') {
     this.chain.push(async (data, prop) => {
       if (data < n) {
+        return { data };
+      }
+      throw ValidateError.make(prop, msg, { n });
+    });
+    return this;
+  }
+
+  public le(n: number, msg: string = ':x must be less than or equals to :n') {
+    this.chain.push(async (data, prop) => {
+      if (data <= n) {
         return { data };
       }
       throw ValidateError.make(prop, msg, { n });
