@@ -140,4 +140,19 @@ describe('string parts', function () {
     expect(validate('abcdefg', T.string().match(/^\w+$/))).resolves.toBe('abcdefg');
     expect(validate('abcdefg', T.string().match(/^ax\w+$/))).rejects.toThrow('not match');
   });
+
+  test('minLength', function () {
+    expect(validate('aslkfjalkfj', T.string().minLength(5))).resolves.toBeDefined();
+    expect(validate('abcd', T.string().minLength(5))).rejects.toThrow('at least');
+  });
+
+  test('maxLength', function () {
+    expect(validate('haha', T.string().maxLength(4))).resolves.toBeDefined();
+    expect(validate('haha', T.string().maxLength(3))).rejects.toThrow('no more than');
+  });
+
+  test('inEnum', function () {
+    expect(validate('ready', T.string().inEnum(['init', 'ready', 'dropped']))).resolves.toBe('ready');
+    expect(validate('ok', T.string().inEnum(['init', 'ready', 'dropped']))).rejects.toThrow('in enum of');
+  });
 });

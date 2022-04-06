@@ -57,4 +57,9 @@ describe('integer comparing cases', function () {
     expect(validate(35, T.integer().between(18, 60))).resolves.toBe(35);
     expect(validate(35, T.integer().between(100, 200))).rejects.toThrowError('between');
   });
+
+  test('inEnum', function () {
+    expect(validate(123, T.integer().inEnum([123, 321, 11]))).resolves.toBe(123);
+    expect(validate(123, T.integer().inEnum([333, 321, 11]))).rejects.toThrow('in enum');
+  });
 });

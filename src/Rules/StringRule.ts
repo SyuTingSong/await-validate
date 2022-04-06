@@ -175,4 +175,34 @@ export default class StringRule extends BaseRule {
     });
     return this;
   }
+
+  minLength(len: number, msg: string = ':x should have at least :len chars') {
+    this.chain.push(async (data: string, prop) => {
+      if (data.length >= len) {
+        return { data };
+      }
+      throw ValidateError.make(prop, msg, { len });
+    });
+    return this;
+  }
+
+  maxLength(len: number, msg: string = ':x should have no more than :len chars') {
+    this.chain.push(async (data: string, prop) => {
+      if (data.length <= len) {
+        return { data };
+      }
+      throw ValidateError.make(prop, msg, { len });
+    });
+    return this;
+  }
+
+  lengthBetween(min: number, max: number, msg: string = ':x should have :min to :max chars') {
+    this.chain.push(async (data: string, prop) => {
+      if (data.length <= max && data.length >= min) {
+        return { data };
+      }
+      throw ValidateError.make(prop, msg, { min, max });
+    });
+    return this;
+  }
 }
