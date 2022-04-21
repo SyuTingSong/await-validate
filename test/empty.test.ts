@@ -103,4 +103,30 @@ describe('required', function () {
       await expect(validate(c, R.required())).resolves.toBeDefined();
     }
   });
+  test('requiredIf', function () {
+    expect(
+      validate(
+        { abc: undefined, def: undefined },
+        {
+          abc: R.requiredIf((data, prop, parent: any) => parent?.def == null),
+        }
+      )
+    ).rejects.toThrow('abc is required');
+    expect(
+      validate(
+        { abc: 123, def: undefined },
+        {
+          abc: R.requiredIf((data, prop, parent: any) => parent?.def == null),
+        }
+      )
+    ).resolves.toEqual({ abc: 123 });
+    expect(
+      validate(
+        { abc: undefined, def: 123 },
+        {
+          abc: R.requiredIf((data, prop, parent: any) => parent?.def == null),
+        }
+      )
+    ).resolves.toEqual({});
+  });
 });

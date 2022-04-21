@@ -151,6 +151,11 @@ describe('string parts', function () {
     expect(validate('haha', T.string().maxLength(3))).rejects.toThrow('no more than');
   });
 
+  test('lengthBetween', function () {
+    expect(validate('welcome', T.string().lengthBetween(4, 10))).resolves.toBeDefined();
+    expect(validate('welcome', T.string().lengthBetween(3, 5))).rejects.toThrow('3 to 5 chars');
+  });
+
   test('inEnum', function () {
     expect(validate('ready', T.string().inEnum(['init', 'ready', 'dropped']))).resolves.toBe('ready');
     expect(validate('ok', T.string().inEnum(['init', 'ready', 'dropped']))).rejects.toThrow('in enum of');

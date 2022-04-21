@@ -1,9 +1,15 @@
 import { isChainable, Rules, Validator } from './Chain';
 
-async function validateChain<R>(chain: Validator[], data: unknown, prop: string, prefix: string): Promise<R> {
+async function validateChain<R>(
+  chain: Validator[],
+  data: unknown,
+  prop: string,
+  prefix: string,
+  parent?: unknown
+): Promise<R> {
   let tData = data;
   for (const v of chain) {
-    const r = await v(tData, prefix ? `${prefix}.${prop}` : prop);
+    const r = await v(tData, prefix ? `${prefix}.${prop}` : prop, parent);
     tData = r.data;
     if (r.skip) {
       break;
@@ -18,7 +24,7 @@ export async function _validate<R = any>(data: unknown, rules: Rules, prefix: st
   }
   const result = {};
   for (const prop of Object.keys(rules)) {
-    result[prop] = await validateChain<R>(rules[prop].getChain(), data[prop], prop, prefix);
+    result[prop] = await validateChain<R>(rules[prop].getChain(), data[prop], prop, prefix, data);
   }
   return result as R;
 }
