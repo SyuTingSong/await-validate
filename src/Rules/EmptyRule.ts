@@ -1,16 +1,19 @@
 import { T } from './TypeRuleChains';
 import { ValidateError } from '../ValidateError';
 
+const nullable = () =>
+  T([
+    async (data: unknown) => {
+      if (data == null || data === '' || Number.isNaN(data)) {
+        return { data: undefined, skip: true };
+      }
+      return { data };
+    },
+  ]);
+
 export const R = {
-  nullable: () =>
-    T([
-      async (data: unknown) => {
-        if (data == null || data === '' || Number.isNaN(data)) {
-          return { data: undefined, skip: true };
-        }
-        return { data };
-      },
-    ]),
+  nullable,
+  optional: nullable,
   required: (message: string = ':x is required') =>
     T([
       async (data: unknown, prop: string) => {
