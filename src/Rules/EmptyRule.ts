@@ -1,5 +1,6 @@
 import { T } from './TypeRuleChains';
 import { ValidateError } from '../ValidateError';
+import { ValidateThrough } from '../Chain';
 
 const nullable = () =>
   T([
@@ -35,6 +36,19 @@ export const R = {
           } else {
             return { data: undefined, skip: true };
           }
+        }
+        return { data };
+      },
+    ]),
+  custom: (validator: ValidateThrough, message: string = ':x is invalid') =>
+    T([
+      async (data: unknown, prop: string, parent?: unknown) => {
+        const r = await validator(data, prop, parent);
+        if (typeof r === 'object') {
+          return r;
+        }
+        if (r === false) {
+          throw ValidateError.make(prop, message);
         }
         return { data };
       },

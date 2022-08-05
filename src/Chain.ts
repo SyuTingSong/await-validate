@@ -1,4 +1,9 @@
 export type Validator<T = unknown> = (data: T, prop: string, parent?: unknown) => Promise<{ data: T; skip?: boolean }>;
+export type ValidateThrough<T = unknown> = (
+  data: T,
+  prop: string,
+  parent?: unknown
+) => Promise<boolean | { data: T; skip?: boolean }>;
 export type Chainable<T = unknown> = {
   getChain(): Validator<T>[];
 };
