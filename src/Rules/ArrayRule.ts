@@ -8,7 +8,7 @@ export default class ArrayRule extends BaseRule {
   constructor(chain: Validator[], message: string = ':x must be an array') {
     super(chain);
     this.chain.push(async (data: unknown, prop: string) => {
-      if (_.isArrayLike(data)) {
+      if (_.isArrayLike(data) && typeof data !== 'string') {
         return { data };
       }
       throw ValidateError.make(prop, message);

@@ -3,6 +3,8 @@ import validate, { T } from '../src/index';
 describe('array type validator', function () {
   test('object as array', function () {
     expect(validate({ a: 1, b: 2 }, T.array())).rejects.toThrow('must be an array');
+    expect(validate('Hello', T.array())).rejects.toThrow('must be an array');
+    expect(validate(['a', 'b', 'c'], T.array())).resolves.toEqual(['a', 'b', 'c']);
   });
 
   test('array min length', function () {
