@@ -63,6 +63,16 @@ export default class StringRule extends BaseRule {
     return this;
   }
 
+  ip(msg: string = ':x must be an IP address') {
+    this.chain.push(async (data: string, prop: string) => {
+      if (validator.isIP(data)) {
+        return { data };
+      }
+      throw ValidateError.make(prop, msg);
+    });
+    return this;
+  }
+
   ipv4(msg: string = ':x must be an IPv4 address') {
     this.chain.push(async (data: string, prop: string) => {
       if (validator.isIP(data, 4)) {

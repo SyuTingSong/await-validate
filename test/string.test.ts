@@ -82,6 +82,8 @@ describe('string parts', function () {
     expect(validate('fe08:37a2::1', T.string().ipv6())).resolves.toBe('fe08:37a2::1');
     expect(validate('192.168.1.1', T.string().ipv6())).rejects.toThrow('IPv6');
     expect(validate('what', T.string().ipv6())).rejects.toThrow('IPv6');
+    expect(validate('fe08:37a2::1', T.string().ip())).resolves.toBe('fe08:37a2::1');
+    expect(validate('192.168.1.1', T.string().ip())).resolves.toBe('192.168.1.1');
   });
 
   test('date', function () {

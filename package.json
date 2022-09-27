@@ -1,6 +1,6 @@
 {
   "name": "await-validate",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "another async validator",
   "keywords": [
     "validator",
